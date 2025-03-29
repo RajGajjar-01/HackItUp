@@ -1,0 +1,114 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model Restaurant {
+    id        Int         @id @default(autoincrement())
+    name      String
+    location  String?
+    createdAt DateTime    @default(now())
+    updatedAt DateTime    @updatedAt
+    inventory Inventory[]
+    menuItems MenuItem[]
+    forecasts Forecast[]
+}
+
+model Inventory {
+    id           Int                  @id @default(autoincrement())
+    name         String
+    category     String
+    quantity     Float
+    unit         String
+    minThreshold Float
+    lastUpdated  DateTime             @default(now())
+    restaurant   Restaurant           @relation(fields: [restaurantId], references: [id])
+    restaurantId Int
+    menuItems    MenuItemIngredient[]
+    imageUrl     String?
+    createdAt    DateTime             @default(now())
+    updatedAt    DateTime             @updatedAt
+
+    @@index([restaurantId])
+}
+
+model MenuItem {
+    id           Int                  @id @default(autoincrement())
+    name         String
+    price        Float
+    category     String
+    isActive     Boolean              @default(true)
+    ingredients  MenuItemIngredient[]
+    salesData    SalesData[]
+    restaurant   Restaurant           @relation(fields: [restaurantId], references: [id])
+    restaurantId Int
+    createdAt    DateTime             @default(now())
+    updatedAt    DateTime             @updatedAt
+
+    @@index([restaurantId])
+}
+
+model MenuItemIngredient {
+    id          Int       @id @default(autoincrement())
+    menuItem    MenuItem  @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+    menuItemId  Int
+    inventory   Inventory @relation(fields: [inventoryId], references: [id])
+    inventoryId Int
+    quantity    Float
+    unit        String
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+
+    @@index([menuItemId])
+    @@index([inventoryId])
+}
+
+model SalesData {
+    id         Int      @id @default(autoincrement())
+    menuItem   MenuItem @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+    menuItemId Int
+    quantity   Int
+    date       DateTime
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+
+    @@index([menuItemId])
+    @@index([date])
+}
+
+model Forecast {
+    id             Int        @id @default(autoincrement())
+    restaurant     Restaurant @relation(fields: [restaurantId], references: [id])
+    restaurantId   Int
+    forecastDate   DateTime
+    forecastType   String // "sales", "inventory", "waste"
+    itemId         Int // Can refer to either MenuItem or Inventory
+    itemType       String // "menuItem" or "inventory"
+    predictedValue Float
+    confidence     Float? // Confidence score (0-1)
+    createdAt      DateTime   @default(now())
+    updatedAt      DateTime   @updatedAt
+
+    @@index([restaurantId])
+    @@index([forecastDate])
+    @@index([itemId, itemType])
+}
+
+model MenuOptimization {
+    id              Int      @id @default(autoincrement())
+    suggestion      String // The actual suggestion
+    suggestionType  String // "add", "remove", "price", "ingredient"
+    itemId          Int? // Optional reference to existing item
+    potentialImpact Float // Estimated impact on revenue
+    confidence      Float // Confidence score (0-1)
+    implemented     Boolean  @default(false)
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+}
