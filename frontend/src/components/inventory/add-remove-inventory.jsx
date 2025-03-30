@@ -45,9 +45,9 @@ export default function InventoryAddRemovalForm() {
       // Convert numeric fields to numbers
       const payload = {
         ...formData,
-        quantity: Number(formData.quantity),
-        minQuantity: Number(formData.minQuantity),
-        cost: Number(formData.cost)
+        quantity: String(formData.quantity),
+        minQuantity: String(formData.minQuantity),
+        cost: String(formData.cost)
       };
 
       const response = await fetch('http://localhost:3000/api/inventory', {
