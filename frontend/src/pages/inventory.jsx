@@ -3,6 +3,7 @@ import StockLevels from "@/components/inventory/stock-levels"
 import AiReplenishment from "@/components/inventory/ai-replenishment"
 import PurchaseOrders from "@/components/inventory/purchase-orders"
 import InventoryAddRemovalForm from "@/components/inventory/add-remove-inventory"
+import AllInventories from "@/components/inventory/all-inventories"
 
 export default function InventoryPage() {
   return (
@@ -26,7 +27,7 @@ export default function InventoryPage() {
 
         {/* Stock Levels - Takes up 1/3 of the top row on large screens */}
         <div className="bg-card rounded-xl shadow-sm border">
-          <StockLevels />
+          <AllInventories />
         </div>
 
         {/* AI Replenishment - Takes up 1/3 of the bottom row on large screens */}
