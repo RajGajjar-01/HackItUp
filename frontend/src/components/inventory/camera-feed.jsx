@@ -1,21 +1,99 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Camera, RefreshCw, Maximize2 } from "lucide-react"
+import { useState, useEffect, useRef } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Camera, RefreshCw, Maximize2, Minimize2, VideoOff, Video } from "lucide-react";
 
 export default function CameraFeed() {
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const [isCameraOn, setIsCameraOn] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const videoRef = useRef(null);
+  const streamRef = useRef(null);
+  const containerRef = useRef(null);
+
+  // Fullscreen toggle handler
+  const toggleFullscreen = () => {
+    if (!containerRef.current) return;
+
+    if (!document.fullscreenElement) {
+      containerRef.current.requestFullscreen()
+        .then(() => setIsFullscreen(true))
+        .catch(err => console.error('Error entering fullscreen:', err));
+    } else {
+      document.exitFullscreen()
+        .then(() => setIsFullscreen(false))
+        .catch(err => console.error('Error exiting fullscreen:', err));
+    }
+  };
 
   useEffect(() => {
-    // Simulate camera feed loading
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 1500)
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
 
-    return () => clearTimeout(timer)
-  }, [])
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const startCamera = async () => {
+      setIsLoading(true);
+      setHasError(false);
+
+      try {
+        if (streamRef.current) {
+          streamRef.current.getTracks().forEach(track => track.stop());
+        }
+
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        
+        if (!isMounted || !isCameraOn) {
+          stream.getTracks().forEach(track => track.stop());
+          return;
+        }
+
+        streamRef.current = stream;
+
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          await videoRef.current.play();
+        }
+
+        setIsLoading(false);
+      } catch (error) {
+        if (!isMounted) return;
+        console.error("Camera error:", error);
+        setHasError(true);
+        setIsLoading(false);
+        setIsCameraOn(false);
+      }
+    };
+
+    if (isCameraOn) {
+      startCamera();
+    } else {
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => track.stop());
+        streamRef.current = null;
+      }
+      if (videoRef.current) {
+        videoRef.current.srcObject = null;
+      }
+    }
+
+    return () => {
+      isMounted = false;
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => track.stop());
+        streamRef.current = null;
+      }
+    };
+  }, [isCameraOn]);
 
   return (
     <Card className="h-full">
@@ -31,31 +109,51 @@ export default function CameraFeed() {
           <Button variant="outline" size="icon">
             <RefreshCw className="h-4 w-4" />
           </Button>
-          <Button variant="outline" size="icon">
-            <Maximize2 className="h-4 w-4" />
+          <Button 
+            variant="outline" 
+            size="icon"
+            onClick={toggleFullscreen}
+          >
+            {isFullscreen ? (
+              <Minimize2 className="h-4 w-4" />
+            ) : (
+              <Maximize2 className="h-4 w-4" />
+            )}
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setIsCameraOn((prev) => !prev)}
+          >
+            {isCameraOn ? (
+              <VideoOff className="h-4 w-4 text-red-500" />
+            ) : (
+              <Video className="h-4 w-4 text-green-500" />
+            )}
           </Button>
         </div>
       </CardHeader>
       <CardContent>
-        <div className="relative aspect-video bg-muted rounded-md overflow-hidden">
-          {isLoading ? (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        <div 
+          ref={containerRef}
+          className="relative aspect-video bg-muted rounded-md overflow-hidden"
+        >
+          <video
+            ref={videoRef}
+            autoPlay
+            playsInline
+            muted
+            className="w-full h-full object-cover"
+          />
+          {isLoading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary" />
             </div>
-          ) : (
-            <>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <img
-                  src="/placeholder.svg?height=400&width=600"
-                  alt="Camera feed placeholder"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="absolute top-3 left-3 bg-black/70 text-white px-2 py-1 rounded text-xs">LIVE</div>
-              <div className="absolute bottom-3 right-3 bg-black/70 text-white px-2 py-1 rounded text-xs">
-                Kitchen Area
-              </div>
-            </>
+          )}
+          {hasError && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/50 text-red-500">
+              Camera access required. Please check permissions.
+            </div>
           )}
         </div>
         <div className="mt-4 grid grid-cols-2 gap-2">
@@ -70,6 +168,5 @@ export default function CameraFeed() {
         </div>
       </CardContent>
     </Card>
-  )
-}
-
+  );
+} 

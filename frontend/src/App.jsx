@@ -10,7 +10,7 @@ function App() {
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <ModeToggle />
       <div className="flex flex-col items-center justify-center gap-8 min-h-svh">
-        <Routerr />
+        <Routerr/>
       </div>
     </ThemeProvider>
   )
