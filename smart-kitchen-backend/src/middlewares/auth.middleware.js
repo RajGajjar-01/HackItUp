@@ -6,7 +6,6 @@ const prisma = require("../lib/prisma");
  */
 const authenticate = async (req, res, next) => {
   try {
-    // Get token from header
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {

@@ -65,7 +65,7 @@ model WasteRecord {
   inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id])
   inventoryItemId String
   quantity        Float
-  reason          String // spoiled, over-portioned, etc
+  reason          String
   imageUrl        String?
   restaurant      Restaurant    @relation(fields: [restaurantId], references: [id])
   restaurantId    String

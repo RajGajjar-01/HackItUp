@@ -1,0 +1,56 @@
+recipe_id,recipe_name,ingredient_id,ingredient_name,category,quantity,unit,cost
+"25ad9b72-bca1-45ed-9a5a-ba2cbe2750c2","Beef Burger","50788758-a786-4b0e-bfdd-0daf7b05fe4e","Heavy Cream","Dairy",1.62,"liter",4.99
+"25ad9b72-bca1-45ed-9a5a-ba2cbe2750c2","Beef Burger","bf83f49a-2216-42a2-8dbe-1b1d53ba3fe1","Lettuce","Produce",1.33,"kg",2.5
+"25ad9b72-bca1-45ed-9a5a-ba2cbe2750c2","Beef Burger","5878c0bf-ffdd-4aeb-8b71-c9f307c7ca79","Sugar","Baking",1.34,"kg",2.49
+"25ad9b72-bca1-45ed-9a5a-ba2cbe2750c2","Beef Burger","22211ba9-b732-47f1-af46-950982c54a22","Canned Beans","Canned Goods",0.69,"kg",1.99
+"0ed4558a-e456-498f-b1c2-58de210cde5a","Caesar Salad","99563f01-ce6e-4d78-b2f7-ec797eddcc4b","Salmon Fillet","Fish",0.16,"kg",15.99
+"0ed4558a-e456-498f-b1c2-58de210cde5a","Caesar Salad","bf83f49a-2216-42a2-8dbe-1b1d53ba3fe1","Lettuce","Produce",1.14,"kg",2.5
+"0ed4558a-e456-498f-b1c2-58de210cde5a","Caesar Salad","224c2e5d-6f12-4dbe-ade2-339e8c33467c","Vinegar","Condiments",1.49,"liter",3.5
+"80744c84-d906-430c-824f-0df6cbe35910","Cheese Platter","5878c0bf-ffdd-4aeb-8b71-c9f307c7ca79","Sugar","Baking",1.99,"kg",2.49
+"80744c84-d906-430c-824f-0df6cbe35910","Cheese Platter","659c4252-086a-45a5-8a93-aa2e10c1f7a6","Black Pepper","Spices",0.73,"kg",15.99
+"80744c84-d906-430c-824f-0df6cbe35910","Cheese Platter","68d80711-2429-4c00-a946-9cd171a71423","Bell Peppers","Produce",1.03,"kg",4.5
+"80744c84-d906-430c-824f-0df6cbe35910","Cheese Platter","a3561878-4292-44b5-b6e3-17b8a0492f9f","Garlic","Produce",1.26,"kg",5.99
+"80744c84-d906-430c-824f-0df6cbe35910","Cheese Platter","5c885ee1-cc94-4ddb-bf2a-aa76613552f1","Ground Beef","Meat",0.6,"kg",7.5
+"dd7474cc-2af2-4b97-ac3f-26257d30bf7c","Chocolate Cake","12d50287-0c95-4560-97a4-da82e6d17076","Butter","Dairy",0.11,"kg",7.85
+"dd7474cc-2af2-4b97-ac3f-26257d30bf7c","Chocolate Cake","ee18c0c0-f0b0-4a67-a5c2-751e717d33ea","Soy Sauce","Condiments",1.12,"liter",4.99
+"ebfc37fc-fc8a-43ef-8bc3-3caaa2d94553","Creamy Tomato Soup","a3561878-4292-44b5-b6e3-17b8a0492f9f","Garlic","Produce",1.08,"kg",5.99
+"ebfc37fc-fc8a-43ef-8bc3-3caaa2d94553","Creamy Tomato Soup","ef480000-30df-48df-87a6-58ef08f4398e","Potatoes","Produce",1.97,"kg",1.79
+"ebfc37fc-fc8a-43ef-8bc3-3caaa2d94553","Creamy Tomato Soup","22211ba9-b732-47f1-af46-950982c54a22","Canned Beans","Canned Goods",1.22,"kg",1.99
+"ebfc37fc-fc8a-43ef-8bc3-3caaa2d94553","Creamy Tomato Soup","ce026131-0ec9-411b-996a-a7305c93ad59","Salt","Spices",0.11,"kg",1.99
+"98a4cc71-c344-47ff-a53b-b1326eb742bd","French Fries","1af48d3e-4ac2-4e6d-97b6-93f6947c289d","Flour","Baking",1.93,"kg",1.99
+"98a4cc71-c344-47ff-a53b-b1326eb742bd","French Fries","8f8a408b-1ed8-4f04-9577-377720e35476","Olive Oil","Oils",1.59,"liter",8.99
+"98a4cc71-c344-47ff-a53b-b1326eb742bd","French Fries","14e0a1f2-101e-4c3e-b032-8ecc7563bf33","Canned Tomatoes","Canned Goods",0.62,"kg",2.99
+"98a4cc71-c344-47ff-a53b-b1326eb742bd","French Fries","77652e2c-36d5-4676-b644-886c707684b0","Shrimp","Fish",0.79,"kg",18.5
+"98a4cc71-c344-47ff-a53b-b1326eb742bd","French Fries","50788758-a786-4b0e-bfdd-0daf7b05fe4e","Heavy Cream","Dairy",1.65,"liter",4.99
+"dec7a4e0-969c-4e09-9c13-89cfffe6dcbe","Garlic Bread","14e0a1f2-101e-4c3e-b032-8ecc7563bf33","Canned Tomatoes","Canned Goods",0.38,"kg",2.99
+"dec7a4e0-969c-4e09-9c13-89cfffe6dcbe","Garlic Bread","12d50287-0c95-4560-97a4-da82e6d17076","Butter","Dairy",1.03,"kg",7.85
+"dec7a4e0-969c-4e09-9c13-89cfffe6dcbe","Garlic Bread","56cbf65e-e95d-4cfd-8247-06a6e4e9767a","Chicken Breast","Meat",1.51,"kg",8.99
+"dec7a4e0-969c-4e09-9c13-89cfffe6dcbe","Garlic Bread","8f8a408b-1ed8-4f04-9577-377720e35476","Olive Oil","Oils",0.45,"liter",8.99
+"dec7a4e0-969c-4e09-9c13-89cfffe6dcbe","Garlic Bread","a3561878-4292-44b5-b6e3-17b8a0492f9f","Garlic","Produce",1.43,"kg",5.99
+"5f66fae1-14d0-4afb-b5ec-492f066f0210","Grilled Chicken Salad","ce026131-0ec9-411b-996a-a7305c93ad59","Salt","Spices",0.34,"kg",1.99
+"5f66fae1-14d0-4afb-b5ec-492f066f0210","Grilled Chicken Salad","f8fe76ef-c874-4e72-8997-e6e62464af24","Tomatoes","Produce",1.1,"kg",3.99
+"0a680e2e-dfe4-430e-b044-e824196ef9ad","Mushroom Risotto","99563f01-ce6e-4d78-b2f7-ec797eddcc4b","Salmon Fillet","Fish",1.12,"kg",15.99
+"0a680e2e-dfe4-430e-b044-e824196ef9ad","Mushroom Risotto","b21f663b-4309-4763-bb6a-ce9a47a18e62","Rosemary","Herbs",1.92,"kg",19.99
+"0a680e2e-dfe4-430e-b044-e824196ef9ad","Mushroom Risotto","90951bf5-05f3-48cf-89e0-2007dd0fdeaf","Cheddar Cheese","Dairy",1.54,"kg",9.99
+"0a680e2e-dfe4-430e-b044-e824196ef9ad","Mushroom Risotto","faef60fe-4d4b-4d46-acad-e4849b5a0c70","Milk","Dairy",1.73,"liter",2.49
+"0a680e2e-dfe4-430e-b044-e824196ef9ad","Mushroom Risotto","56cbf65e-e95d-4cfd-8247-06a6e4e9767a","Chicken Breast","Meat",1.83,"kg",8.99
+"a2c24b58-4903-46a4-b553-604cfb3150f5","Pancakes","90951bf5-05f3-48cf-89e0-2007dd0fdeaf","Cheddar Cheese","Dairy",1.31,"kg",9.99
+"a2c24b58-4903-46a4-b553-604cfb3150f5","Pancakes","99563f01-ce6e-4d78-b2f7-ec797eddcc4b","Salmon Fillet","Fish",1.79,"kg",15.99
+"a2c24b58-4903-46a4-b553-604cfb3150f5","Pancakes","ea8737b3-ee4d-4958-9ba2-9eec75b1ac51","Vegetable Oil","Oils",0.7,"liter",3.99
+"c36b41ba-67fb-48e1-aca4-f4b736b4c197","Salmon with Herbs","b21f663b-4309-4763-bb6a-ce9a47a18e62","Rosemary","Herbs",1.96,"kg",19.99
+"c36b41ba-67fb-48e1-aca4-f4b736b4c197","Salmon with Herbs","1af48d3e-4ac2-4e6d-97b6-93f6947c289d","Flour","Baking",1.73,"kg",1.99
+"c36b41ba-67fb-48e1-aca4-f4b736b4c197","Salmon with Herbs","68d80711-2429-4c00-a946-9cd171a71423","Bell Peppers","Produce",0.83,"kg",4.5
+"c36b41ba-67fb-48e1-aca4-f4b736b4c197","Salmon with Herbs","bf492d4b-eb02-4585-9db5-5d288d2cc683","Onions","Produce",1.31,"kg",1.99
+"c36b41ba-67fb-48e1-aca4-f4b736b4c197","Salmon with Herbs","ef480000-30df-48df-87a6-58ef08f4398e","Potatoes","Produce",1.08,"kg",1.79
+"5329854e-9333-43ff-8da0-9a5a0aff069e","Spaghetti Bolognese","224c2e5d-6f12-4dbe-ade2-339e8c33467c","Vinegar","Condiments",0.67,"liter",3.5
+"5329854e-9333-43ff-8da0-9a5a0aff069e","Spaghetti Bolognese","a3561878-4292-44b5-b6e3-17b8a0492f9f","Garlic","Produce",0.46,"kg",5.99
+"5329854e-9333-43ff-8da0-9a5a0aff069e","Spaghetti Bolognese","bf83f49a-2216-42a2-8dbe-1b1d53ba3fe1","Lettuce","Produce",1.56,"kg",2.5
+"5329854e-9333-43ff-8da0-9a5a0aff069e","Spaghetti Bolognese","77652e2c-36d5-4676-b644-886c707684b0","Shrimp","Fish",0.13,"kg",18.5
+"5329854e-9333-43ff-8da0-9a5a0aff069e","Spaghetti Bolognese","22211ba9-b732-47f1-af46-950982c54a22","Canned Beans","Canned Goods",1.89,"kg",1.99
+"2059017c-a29a-4824-8117-e744022dc64b","Tiramisu","ef480000-30df-48df-87a6-58ef08f4398e","Potatoes","Produce",1.66,"kg",1.79
+"2059017c-a29a-4824-8117-e744022dc64b","Tiramisu","90951bf5-05f3-48cf-89e0-2007dd0fdeaf","Cheddar Cheese","Dairy",1.07,"kg",9.99
+"2059017c-a29a-4824-8117-e744022dc64b","Tiramisu","659c4252-086a-45a5-8a93-aa2e10c1f7a6","Black Pepper","Spices",0.66,"kg",15.99
+"00cdf143-dbe2-4d79-aaa2-e96e105b1d18","Vegetable Soup","90951bf5-05f3-48cf-89e0-2007dd0fdeaf","Cheddar Cheese","Dairy",0.82,"kg",9.99
+"00cdf143-dbe2-4d79-aaa2-e96e105b1d18","Vegetable Soup","12d50287-0c95-4560-97a4-da82e6d17076","Butter","Dairy",0.39,"kg",7.85
+"12d03a53-e959-43f7-8713-4412ff216bb9","Vegetable Stir Fry","12d50287-0c95-4560-97a4-da82e6d17076","Butter","Dairy",1.91,"kg",7.85
+"12d03a53-e959-43f7-8713-4412ff216bb9","Vegetable Stir Fry","68d80711-2429-4c00-a946-9cd171a71423","Bell Peppers","Produce",0.45,"kg",4.5
