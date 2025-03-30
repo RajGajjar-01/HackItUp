@@ -50,7 +50,7 @@ export default function InventoryAddRemovalForm() {
         cost: String(formData.cost)
       };
 
-      const response = await fetch('http://localhost:3000/api/inventory', {
+      const response = await fetch(`http://localhost:3000/api/inventory?restaurantid=${formData.restaurantId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
