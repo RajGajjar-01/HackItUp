@@ -2,6 +2,7 @@ import CameraFeed from "@/components/inventory/camera-feed"
 import StockLevels from "@/components/inventory/stock-levels"
 import AiReplenishment from "@/components/inventory/ai-replenishment"
 import PurchaseOrders from "@/components/inventory/purchase-orders"
+import InventoryAddRemovalForm from "@/components/inventory/add-remove-inventory"
 
 export default function InventoryPage() {
   return (
@@ -36,6 +37,9 @@ export default function InventoryPage() {
         {/* Purchase Orders - Takes up 2/3 of the bottom row on large screens */}
         <div className="lg:col-span-2 bg-card rounded-xl shadow-sm border">
           <PurchaseOrders />
+        </div>
+        <div className="lg:col-span-3 bg-card rounded-xl shadow-sm border">
+          <InventoryAddRemovalForm />
         </div>
       </div>
     </div>
