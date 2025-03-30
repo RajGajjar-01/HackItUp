@@ -170,10 +170,10 @@ export function RestaurantWasteSuggestions() {
           <div className="mt-6 p-4 bg-primary/10 rounded-lg">
             <h3 className="font-medium">PetPooja Integration Benefits:</h3>
             <ul className="mt-2 space-y-1 text-sm">
-              <li>• Use PetPooja sales data to predict demand more accurately</li>
-              <li>• Track waste reduction progress directly in your PetPooja dashboard</li>
-              <li>• Automatically adjust inventory orders based on waste reduction goals</li>
-              <li>• Generate sustainability reports for marketing and customer engagement</li>
+              <li>Use PetPooja sales data to predict demand more accurately</li>
+              <li>Track waste reduction progress directly in your PetPooja dashboard</li>
+              <li>Automatically adjust inventory orders based on waste reduction goals</li>
+              <li>Generate sustainability reports for marketing and customer engagement</li>
             </ul>
           </div>
         </CardContent>
