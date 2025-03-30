@@ -1,114 +1,145 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String      @id @default(uuid())
+  email        String      @unique
+  password     String
+  name         String
+  role         String      @default("owner") // owner, manager, staff
+  restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
+  restaurantId String?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 }
 
 model Restaurant {
-    id        Int         @id @default(autoincrement())
-    name      String
-    location  String?
-    createdAt DateTime    @default(now())
-    updatedAt DateTime    @updatedAt
-    inventory Inventory[]
-    menuItems MenuItem[]
-    forecasts Forecast[]
+  id             String          @id @default(uuid())
+  name           String
+  address        String?
+  phone          String?
+  users          User[]
+  inventoryItems InventoryItem[]
+  wasteRecords   WasteRecord[]
+  salesData      SalesData[]
+  recipes        Recipe[]
+  menus          Menu[] // Added this relation
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
 }
 
-model Inventory {
-    id           Int                  @id @default(autoincrement())
-    name         String
-    category     String
-    quantity     Float
-    unit         String
-    minThreshold Float
-    lastUpdated  DateTime             @default(now())
-    restaurant   Restaurant           @relation(fields: [restaurantId], references: [id])
-    restaurantId Int
-    menuItems    MenuItemIngredient[]
-    imageUrl     String?
-    createdAt    DateTime             @default(now())
-    updatedAt    DateTime             @updatedAt
-
-    @@index([restaurantId])
+model InventoryItem {
+  id            String        @id @default(uuid())
+  name          String
+  category      String
+  quantity      Float
+  minQuantity   Float         @default(0)
+  unit          String
+  flag          Boolean
+  purchaseDate  DateTime      @default(now())
+  expiryDate    DateTime?
+  imageUrl      String?
+  cost          Float
+  restaurant    Restaurant    @relation(fields: [restaurantId], references: [id])
+  restaurantId  String
+  wasteRecords  WasteRecord[]
+  usedInRecipes RecipeItem[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 }
 
-model MenuItem {
-    id           Int                  @id @default(autoincrement())
-    name         String
-    price        Float
-    category     String
-    isActive     Boolean              @default(true)
-    ingredients  MenuItemIngredient[]
-    salesData    SalesData[]
-    restaurant   Restaurant           @relation(fields: [restaurantId], references: [id])
-    restaurantId Int
-    createdAt    DateTime             @default(now())
-    updatedAt    DateTime             @updatedAt
-
-    @@index([restaurantId])
-}
-
-model MenuItemIngredient {
-    id          Int       @id @default(autoincrement())
-    menuItem    MenuItem  @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
-    menuItemId  Int
-    inventory   Inventory @relation(fields: [inventoryId], references: [id])
-    inventoryId Int
-    quantity    Float
-    unit        String
-    createdAt   DateTime  @default(now())
-    updatedAt   DateTime  @updatedAt
-
-    @@index([menuItemId])
-    @@index([inventoryId])
+model WasteRecord {
+  id              String        @id @default(uuid())
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id])
+  inventoryItemId String
+  quantity        Float
+  reason          String // spoiled, over-portioned, etc
+  imageUrl        String?
+  restaurant      Restaurant    @relation(fields: [restaurantId], references: [id])
+  restaurantId    String
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
 }
 
 model SalesData {
-    id         Int      @id @default(autoincrement())
-    menuItem   MenuItem @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
-    menuItemId Int
-    quantity   Int
-    date       DateTime
-    createdAt  DateTime @default(now())
-    updatedAt  DateTime @updatedAt
-
-    @@index([menuItemId])
-    @@index([date])
+  id           String     @id @default(uuid())
+  recipe       Recipe     @relation(fields: [recipeId], references: [id])
+  recipeId     String
+  quantitySold Int
+  revenue      Float
+  date         DateTime   @default(now())
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurantId String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 }
 
-model Forecast {
-    id             Int        @id @default(autoincrement())
-    restaurant     Restaurant @relation(fields: [restaurantId], references: [id])
-    restaurantId   Int
-    forecastDate   DateTime
-    forecastType   String // "sales", "inventory", "waste"
-    itemId         Int // Can refer to either MenuItem or Inventory
-    itemType       String // "menuItem" or "inventory"
-    predictedValue Float
-    confidence     Float? // Confidence score (0-1)
-    createdAt      DateTime   @default(now())
-    updatedAt      DateTime   @updatedAt
-
-    @@index([restaurantId])
-    @@index([forecastDate])
-    @@index([itemId, itemType])
+model Recipe {
+  id           String       @id @default(uuid())
+  name         String
+  description  String?
+  category     String
+  price        Float
+  ingredients  RecipeItem[]
+  imageUrl     String?
+  restaurant   Restaurant   @relation(fields: [restaurantId], references: [id])
+  restaurantId String
+  salesData    SalesData[]
+  isSpecial    Boolean      @default(false)
+  menus        MenuItems[] // Added this relation
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
 }
 
-model MenuOptimization {
-    id              Int      @id @default(autoincrement())
-    suggestion      String // The actual suggestion
-    suggestionType  String // "add", "remove", "price", "ingredient"
-    itemId          Int? // Optional reference to existing item
-    potentialImpact Float // Estimated impact on revenue
-    confidence      Float // Confidence score (0-1)
-    implemented     Boolean  @default(false)
-    createdAt       DateTime @default(now())
-    updatedAt       DateTime @updatedAt
+model RecipeItem {
+  id              String        @id @default(uuid())
+  recipe          Recipe        @relation(fields: [recipeId], references: [id])
+  recipeId        String
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id])
+  inventoryItemId String
+  quantity        Float
+  unit            String
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+// New models for Menu functionality
+model Menu {
+  id           String      @id @default(uuid())
+  name         String
+  description  String?
+  startDate    DateTime?
+  endDate      DateTime?
+  isActive     Boolean     @default(true)
+  items        MenuItems[]
+  restaurant   Restaurant  @relation(fields: [restaurantId], references: [id])
+  restaurantId String
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+model MenuItems {
+  id        String   @id @default(uuid())
+  menu      Menu     @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  menuId    String
+  recipe    Recipe   @relation(fields: [recipeId], references: [id])
+  recipeId  String
+  section   String? // e.g., "Appetizer", "Main Course", "Dessert"
+  order     Int      @default(0) // For controlling display order
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([menuId, recipeId])
 }
