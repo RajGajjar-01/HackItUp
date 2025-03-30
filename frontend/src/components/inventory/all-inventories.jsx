@@ -187,7 +187,7 @@ export default function AllInventories() {
         <div className="mb-4 pb-2 border-b">
           <div className="flex flex-wrap items-center justify-between text-sm">
             <div className="flex items-center mr-2 mb-1">
-              <div className="w-3 h-3 rounded-full bg-red-600 mr-2"></div>
+              <div className="w-3 h-3 rounded-full bg-red-600    mr-2"></div>
               <span>Emergency ({statusCounts.emergency || 0})</span>
             </div>
             <div className="flex items-center mr-2 mb-1">
