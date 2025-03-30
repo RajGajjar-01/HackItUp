@@ -1,5 +1,7 @@
 "use client";
 
+import { rest_id } from "@/constants";
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { BarChart3, AlertTriangle } from "lucide-react";
@@ -13,7 +15,7 @@ export default function AllInventories() {
   useEffect(() => {
     const fetchInventory = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/inventory?restaurantid=');
+        const response = await fetch(`http://localhost:3000/api/inventory?restaurantid=${rest_id}`);
         
         if (!response.ok) {
           const text = await response.text();

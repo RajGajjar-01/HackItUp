@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Package, ClipboardList } from "lucide-react";
 import { Toaster, toast } from 'sonner';
+import { rest_id } from '@/constants';
 
 const units = [
   'pieces',
@@ -27,7 +28,7 @@ export default function InventoryAddRemovalForm() {
     unit: 'pieces',
     expiryDate: '',
     cost: '',
-    restaurantId: '1'
+    restaurantId: rest_id
   });
 
   const handleChange = (e) => {
@@ -50,7 +51,7 @@ export default function InventoryAddRemovalForm() {
         cost: String(formData.cost)
       };
 
-      const response = await fetch(`http://localhost:3000/api/inventory?restaurantid=${formData.re}`, {
+      const response = await fetch(`http://localhost:3000/api/inventory?restaurantid=${rest_id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
