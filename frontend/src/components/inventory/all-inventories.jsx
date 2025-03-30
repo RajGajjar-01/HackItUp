@@ -5,7 +5,6 @@ import { Progress } from "@/components/ui/progress";
 import { BarChart3, AlertTriangle } from "lucide-react";
 import { useEffect, useState } from "react";
 
-
 export default function AllInventories() {
   const [inventoryData, setInventoryData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -14,13 +13,23 @@ export default function AllInventories() {
   useEffect(() => {
     const fetchInventory = async () => {
       try {
-        const response = await fetch('/api/inventory?re');
-        if (!response.ok) throw new Error('Failed to fetch inventory');
+        const response = await fetch('http://localhost:3000/api/inventory?restaurantid=');
+        
+        if (!response.ok) {
+          const text = await response.text();
+          throw new Error(`API Error (${response.status}): ${text}`);
+        }
+
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+          throw new Error('Invalid API response format');
+        }
+
         const data = await response.json();
-        console.log(data);
         setInventoryData(data);
+        setError(null);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load inventory');
+        setError(err.message);
       } finally {
         setLoading(false);
       }
@@ -30,9 +39,8 @@ export default function AllInventories() {
   }, []);
 
   const getStatus = (quantity, minQuantity) => {
-    const percentage = (quantity / minQuantity) * 100;
-    if (quantity <= minQuantity || percentage <= 30) return 'critical';
-    if (percentage <= 70) return 'warning';
+    if (quantity <= minQuantity) return 'critical';
+    if (quantity <= minQuantity * 2) return 'warning';
     return 'normal';
   };
 
@@ -65,12 +73,13 @@ export default function AllInventories() {
         <CardHeader className="pb-2">
           <CardTitle className="text-lg flex items-center">
             <BarChart3 className="mr-2 h-5 w-5" />
-            Inventory Overview
+            Inventory Error
           </CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col items-center justify-center h-64 text-destructive">
           <AlertTriangle className="h-8 w-8 mb-4" />
           <p className="text-center">{error}</p>
+          <p className="text-sm mt-2">Check API endpoint /api/inventory</p>
         </CardContent>
       </Card>
     );
@@ -83,7 +92,7 @@ export default function AllInventories() {
           <BarChart3 className="mr-2 h-5 w-5" />
           Inventory Overview
         </CardTitle>
-        <CardDescription>Current stock levels and status</CardDescription>
+        <CardDescription>{inventoryData.length} items in inventory</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
@@ -99,11 +108,11 @@ export default function AllInventories() {
                     {status === 'critical' && <AlertTriangle className="h-4 w-4 ml-2 text-destructive" />}
                   </div>
                   <span className="text-sm text-muted-foreground">
-                    {item.quantity.toFixed(2)} {item.unit}
+                    {item.quantity} {item.unit}
                   </span>
                 </div>
                 <Progress
-                  value={percentage > 100 ? 100 : percentage}
+                  value={Math.min(percentage, 100)}
                   className={`h-2 ${
                     status === 'critical'
                       ? 'bg-destructive/20'
@@ -113,7 +122,7 @@ export default function AllInventories() {
                   }`}
                 />
                 <div className="flex justify-between text-xs text-muted-foreground">
-                  <span>Min: {item.minQuantity.toFixed(2)} {item.unit}</span>
+                  <span>Min: {item.minQuantity} {item.unit}</span>
                   <span>Category: {item.category}</span>
                 </div>
                 {item.expiryDate && (
@@ -125,6 +134,7 @@ export default function AllInventories() {
             );
           })}
         </div>
+
         <div className="mt-4 pt-4 border-t">
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center">

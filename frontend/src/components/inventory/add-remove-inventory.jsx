@@ -1,44 +1,38 @@
 "use client";
 
-import { useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Package, ClipboardList } from "lucide-react";
-import { Toaster, toast } from "sonner";
+import { Toaster, toast } from 'sonner';
 
 const units = [
-  "pieces",
-  "grams",
-  "kilograms",
-  "liters",
-  "milliliters",
-  "ounces",
-  "pounds",
-  "gallons",
-  "units",
+  'pieces',
+  'grams',
+  'kilograms',
+  'liters',
+  'milliliters',
+  'ounces',
+  'pounds',
+  'gallons',
+  'units'
 ];
 
 export default function InventoryAddRemovalForm() {
   const [formData, setFormData] = useState({
-    name: "",
-    category: "",
-    quantity: "",
-    minQuantity: "",
-    unit: "pieces",
-    expiryDate: "",
-    cost: "",
-    restaurantId: "09bd8dba-086b-4cc0-a940-0018df422e21",
+    name: '',
+    category: '',
+    quantity: '',
+    minQuantity: '',
+    unit: 'pieces',
+    expiryDate: '',
+    cost: '',
+    restaurantId: '1'
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -53,19 +47,16 @@ export default function InventoryAddRemovalForm() {
         ...formData,
         quantity: String(formData.quantity),
         minQuantity: String(formData.minQuantity),
-        cost: String(formData.cost),
+        cost: String(formData.cost)
       };
 
-      const response = await fetch(
-        `http://localhost:3000/api/inventory?restaurantId=${"09bd8dba-086b-4cc0-a940-0018df422e21"}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      const response = await fetch(`http://localhost:3000/api/inventory?restaurantid=${formData.re}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -80,18 +71,10 @@ export default function InventoryAddRemovalForm() {
       });
 
       // Reset form after successful submission
-      setFormData({
-        name: "",
-        category: "",
-        quantity: "",
-        minQuantity: "",
-        unit: "pieces",
-        expiryDate: "",
-        cost: "",
-        restaurantId: "1",
-      });
+      setFormData(prev => ({...prev}));
+
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.error('Error submitting form:', error);
       toast({
         title: "Error",
         description: "Failed to update inventory item",
@@ -100,7 +83,7 @@ export default function InventoryAddRemovalForm() {
     } finally {
       setIsSubmitting(false);
     }
-  };
+  };    
 
   return (
     <Card className="h-full">
@@ -125,7 +108,7 @@ export default function InventoryAddRemovalForm() {
                 required
               />
             </div>
-
+            
             <div className="space-y-1">
               <label className="text-sm font-medium">Category</label>
               <input
@@ -152,7 +135,7 @@ export default function InventoryAddRemovalForm() {
                 required
               />
             </div>
-
+            
             <div className="space-y-1">
               <label className="text-sm font-medium">Min Quantity</label>
               <input
@@ -177,14 +160,12 @@ export default function InventoryAddRemovalForm() {
                 className="w-full p-2 bg-muted/50 rounded-md"
                 required
               >
-                {units.map((unit) => (
-                  <option key={unit} value={unit}>
-                    {unit}
-                  </option>
+                {units.map(unit => (
+                  <option key={unit} value={unit}>{unit}</option>
                 ))}
               </select>
             </div>
-
+            
             <div className="space-y-1">
               <label className="text-sm font-medium">Expiry Date</label>
               <input
@@ -211,7 +192,7 @@ export default function InventoryAddRemovalForm() {
                 step="0.01"
                 required
               />
-            </div>
+            </div>  
           </div>
 
           <div className="flex justify-end gap-2 pt-4">
