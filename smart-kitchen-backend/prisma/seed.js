@@ -10,6 +10,7 @@ const INVENTORY_ITEMS_PER_RESTAURANT = 30;
 const RECIPES_PER_RESTAURANT = 15;
 const WASTE_RECORDS_PER_RESTAURANT = 20;
 const SALES_RECORDS_PER_RESTAURANT = 50;
+const MENUS_PER_RESTAURANT = 3;
 
 // Helper function to get random item from array
 const getRandomItem = (array) =>
@@ -21,7 +22,9 @@ const getRandomDate = (start, end) => {
     start.getTime() + Math.random() * (end.getTime() - start.getTime())
   );
 };
-
+const getRandomeInt = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
 // Helper function to get random float with 2 decimal places
 const getRandomFloat = (min, max) => {
   return parseFloat((Math.random() * (max - min) + min).toFixed(2));
@@ -31,7 +34,8 @@ const getRandomFloat = (min, max) => {
 async function main() {
   console.log("Starting database seed...");
 
-  // Clear existing data if present
+  await prisma.menuItems.deleteMany({});
+  await prisma.menu.deleteMany({});
   await prisma.salesData.deleteMany({});
   await prisma.wasteRecord.deleteMany({});
   await prisma.recipeItem.deleteMany({});
@@ -42,7 +46,6 @@ async function main() {
 
   console.log("Cleared existing data");
 
-  // Create mock data arrays
   const inventoryCategories = [
     "Meat",
     "Fish",
@@ -148,6 +151,27 @@ async function main() {
     "Contamination",
   ];
 
+  // Menu related data
+  const menuTypes = [
+    "Regular Menu",
+    "Lunch Special",
+    "Dinner Special",
+    "Weekend Brunch",
+    "Holiday Menu",
+    "Seasonal Specials",
+  ];
+
+  const menuSections = [
+    "Appetizers",
+    "Soups & Salads",
+    "Main Course",
+    "Sides",
+    "Desserts",
+    "Beverages",
+    "Breakfast",
+    "Chef's Specials",
+  ];
+
   console.log("Creating restaurants and users...");
 
   // Create restaurants with users and data
@@ -228,12 +252,21 @@ async function main() {
         today.getDate() - Math.floor(Math.random() * 60) - 1
       );
 
+      // Set flag based on expiry date (true if expired or close to expiry)
+      const flag = expiryDate
+        ? expiryDate < today ||
+          (expiryDate > today &&
+            expiryDate < new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000))
+        : false;
+
       const inventoryItem = await prisma.inventoryItem.create({
         data: {
           name: item.name,
           category: item.category,
           quantity: getRandomFloat(0.5, 20),
+          minQuantity: getRandomeInt(1, 10),
           unit: item.unit,
+          flag: flag,
           cost: item.cost,
           purchaseDate,
           expiryDate,
@@ -365,6 +398,63 @@ async function main() {
     console.log(
       `Created ${SALES_RECORDS_PER_RESTAURANT} sales records for ${restaurant.name}`
     );
+
+    // Create menus for this restaurant
+    for (let i = 0; i < MENUS_PER_RESTAURANT; i++) {
+      const menuName = getRandomItem(menuTypes);
+      const isActive = Math.random() > 0.3; // 70% active
+
+      // Set date range for menu
+      let startDate = new Date();
+      startDate.setDate(today.getDate() - Math.floor(Math.random() * 30));
+
+      let endDate = null;
+      if (Math.random() > 0.5) {
+        // 50% have end dates
+        endDate = new Date();
+        endDate.setDate(
+          startDate.getDate() + Math.floor(Math.random() * 90) + 30
+        );
+      }
+
+      const menu = await prisma.menu.create({
+        data: {
+          name: `${menuName} ${i + 1}`,
+          description: `${menuName} featuring our best dishes`,
+          startDate,
+          endDate,
+          isActive,
+          restaurantId: restaurant.id,
+        },
+      });
+
+      // Add menu items - assign recipes to this menu
+      // Shuffle recipes to get a random selection
+      const shuffledRecipes = [...createdRecipes].sort(
+        () => 0.5 - Math.random()
+      );
+
+      // Take a subset of recipes for this menu (3-8 recipes)
+      const menuItemCount = Math.floor(Math.random() * 6) + 3;
+      const menuRecipes = shuffledRecipes.slice(0, menuItemCount);
+
+      // Create menu items with sections
+      for (let j = 0; j < menuRecipes.length; j++) {
+        const recipe = menuRecipes[j];
+        const section = getRandomItem(menuSections);
+
+        await prisma.menuItems.create({
+          data: {
+            menuId: menu.id,
+            recipeId: recipe.id,
+            section,
+            order: j + 1,
+          },
+        });
+      }
+
+      console.log(`Created menu "${menu.name}" with ${menuItemCount} items`);
+    }
   }
 
   console.log("Database seed completed successfully");

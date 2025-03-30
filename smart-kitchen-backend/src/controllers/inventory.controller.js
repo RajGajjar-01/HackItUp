@@ -69,12 +69,13 @@ const createInventoryItem = async (req, res) => {
       category,
       quantity,
       unit,
+      minQuantity,
       purchaseDate,
       expiryDate,
       imageUrl,
       cost,
     } = req.body;
-
+    console.log(req.body);
     // const restaurantId = req.user.restaurantId;
     const restaurantId = req.query.restaurantId; // For testing purposes, use query param instead of auth
 
@@ -101,6 +102,7 @@ const createInventoryItem = async (req, res) => {
         category,
         quantity: parseFloat(quantity),
         unit,
+        minQuantity,
         purchaseDate: purchaseDate ? new Date(purchaseDate) : new Date(),
         expiryDate: expiryDate ? new Date(expiryDate) : null,
         imageUrl,

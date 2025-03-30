@@ -44,10 +44,10 @@ model InventoryItem {
   id            String        @id @default(uuid())
   name          String
   category      String
-  quantity      Float
-  minQuantity   Float         @default(0)
+  quantity      Int
+  minQuantity   Int           @default(0)
   unit          String
-  flag          Boolean
+  flag          Boolean       @default(false)
   purchaseDate  DateTime      @default(now())
   expiryDate    DateTime?
   imageUrl      String?

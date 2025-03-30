@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const prisma = require("./lib/prisma");
-
+const suggestionRoutes = require("./routes/suggestion.js");
 // Import routes
 const authRoutes = require("./routes/auth.routes");
 const inventoryRoutes = require("./routes/inventory.routes");
@@ -40,8 +40,8 @@ app.use("/api/recipes", recipeRoutes);
 app.use("/api/waste", wasteRoutes);
 app.use("/api/sales", salesRoutes);
 app.use("/api/ai", aiServiceRoutes);
+app.use("/api/suggestions", suggestionRoutes);
 
-// Root route
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to Smart Kitchen API" });
 });
