@@ -1,1 +1,1 @@
-export const rest_id = "1814d447-13f8-4b35-b504-b7f2c998be4a"; // Example restaurant ID
+export const rest_id = "ab287b87-436a-4c96-aa33-4ad1c4f2d419"; // Example restaurant ID

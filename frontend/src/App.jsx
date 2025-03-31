@@ -1,27 +1,26 @@
-import { useState } from 'react'
-import { ModeToggle } from './components/mode-toggler'
-import { ThemeProvider } from './components/theme-provider'
-import Routerr from './components/Routerr'
-import Sidebar from './components/Sidebar'
+import { useState } from "react";
+import { ModeToggle } from "./components/mode-toggler";
+import { ThemeProvider } from "./components/theme-provider";
+import Routerr from "./components/Routerr";
+import Sidebar from "./components/Sidebar";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <div>
-          {/* <header>
+      <div>
+        {/* <header>
             nav
           </header> */}
-        </div>
-        {/* <Sidebar /> */}
-        {/* <ModeToggle className="sticky"/> */}
-      
+      </div>
+      <ModeToggle className="sticky" />
+
       <div className="flex flex-col items-center justify-center gap-8 min-h-svh">
-        <Routerr/>
+        <Routerr />
       </div>
     </ThemeProvider>
-  ) 
+  );
 }
 
-export default App
+export default App;
