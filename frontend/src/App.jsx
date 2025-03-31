@@ -10,11 +10,12 @@ function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <div>
-          <header>
+          {/* <header>
             nav
-          </header>
+          </header> */}
         </div>
-        <Sidebar />
+        {/* <Sidebar /> */}
+        {/* <ModeToggle className="sticky"/> */}
       
       <div className="flex flex-col items-center justify-center gap-8 min-h-svh">
         <Routerr/>
