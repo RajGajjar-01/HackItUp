@@ -15,7 +15,7 @@ function App() {
           </header> */}
         </div>
         {/* <Sidebar /> */}
-        {/* <ModeToggle className="sticky"/> */}
+        <ModeToggle className="sticky"/>
       
       <div className="flex flex-col items-center justify-center gap-8 min-h-svh">
         <Routerr/>
