@@ -33,11 +33,8 @@ export default function Menu() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
-        const response = await fetch(
-          `http://localhost:3000/api/suggestions/expiring-recipes?restaurantId=${rest_id}`
-        );
-
+        const response = await fetch(`http://localhost:3000/api/recipes?restaurantId=${rest_id}`);
+        
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
