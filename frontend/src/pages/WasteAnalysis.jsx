@@ -11,10 +11,10 @@ import { Badge } from "@/components/ui/badge"
 import { UtensilsCrossed, TrendingDown, DollarSign, BarChart3 } from "lucide-react"
 
 export default function WasteAnalysis() {
-  const [timeframe, setTimeframe] = useState  ("daily")
+  const [timeframe, setTimeframe] = useState("daily")
 
   return (
-    <div className="container mx-auto py-8">
+    <div className="container mx-auto py-8 font-poppins">
       <div className="flex flex-col space-y-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>

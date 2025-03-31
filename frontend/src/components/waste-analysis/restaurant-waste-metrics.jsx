@@ -16,149 +16,161 @@ import {
 } from "recharts"
 
 export function RestaurantWasteMetrics({
-  timeframe,
+  timeframe = "daily",
   chartType = "line",
   mealPeriod = false,
 }) {
-  // Sample data for different timeframes
+  // Sample data for different timeframes focused on produce
   const dailyData = [
-    { name: "Mon", produce: 12.5, meat: 8.2, dairy: 6.4, prepared: 15.8, bakery: 5.6 },
-    { name: "Tue", produce: 10.8, meat: 7.5, dairy: 5.9, prepared: 14.2, bakery: 4.8 },
-    { name: "Wed", produce: 14.2, meat: 9.1, dairy: 7.2, prepared: 16.5, bakery: 6.2 },
-    { name: "Thu", produce: 13.6, meat: 8.8, dairy: 6.8, prepared: 15.9, bakery: 5.9 },
-    { name: "Fri", produce: 15.4, meat: 10.2, dairy: 7.8, prepared: 18.2, bakery: 6.8 },
-    { name: "Sat", produce: 18.2, meat: 12.5, dairy: 9.2, prepared: 22.5, bakery: 8.2 },
-    { name: "Sun", produce: 16.8, meat: 11.4, dairy: 8.5, prepared: 20.8, bakery: 7.5 },
+    { name: "Mon", fruits: 8.2, vegetables: 12.5, leafyGreens: 6.4, preparedVeg: 5.8 },
+    { name: "Tue", fruits: 7.5, vegetables: 10.8, leafyGreens: 5.9, preparedVeg: 4.2 },
+    { name: "Wed", fruits: 9.1, vegetables: 14.2, leafyGreens: 7.2, preparedVeg: 6.5 },
+    { name: "Thu", fruits: 8.8, vegetables: 13.6, leafyGreens: 6.8, preparedVeg: 5.9 },
+    { name: "Fri", fruits: 10.2, vegetables: 15.4, leafyGreens: 7.8, preparedVeg: 8.2 },
+    { name: "Sat", fruits: 12.5, vegetables: 18.2, leafyGreens: 9.2, preparedVeg: 12.5 },
+    { name: "Sun", fruits: 11.4, vegetables: 16.8, leafyGreens: 8.5, preparedVeg: 10.8 },
   ]
 
   const weeklyData = [
-    { name: "Week 1", produce: 85.5, meat: 58.2, dairy: 42.4, prepared: 105.8, bakery: 38.6 },
-    { name: "Week 2", produce: 82.8, meat: 55.5, dairy: 40.9, prepared: 102.2, bakery: 36.8 },
-    { name: "Week 3", produce: 88.2, meat: 60.1, dairy: 44.2, prepared: 110.5, bakery: 40.2 },
-    { name: "Week 4", produce: 86.6, meat: 59.8, dairy: 43.8, prepared: 108.9, bakery: 39.9 },
+    { name: "Week 1", fruits: 58.2, vegetables: 85.5, leafyGreens: 42.4, preparedVeg: 35.8 },
+    { name: "Week 2", fruits: 55.5, vegetables: 82.8, leafyGreens: 40.9, preparedVeg: 32.2 },
+    { name: "Week 3", fruits: 60.1, vegetables: 88.2, leafyGreens: 44.2, preparedVeg: 40.5 },
+    { name: "Week 4", fruits: 59.8, vegetables: 86.6, leafyGreens: 43.8, preparedVeg: 38.9 },
   ]
 
   const monthlyData = [
-    { name: "Jan", produce: 350.5, meat: 240.2, dairy: 180.4, prepared: 420.8, bakery: 150.6 },
-    { name: "Feb", produce: 320.8, meat: 220.5, dairy: 165.9, prepared: 390.2, bakery: 140.8 },
-    { name: "Mar", produce: 380.2, meat: 260.1, dairy: 195.2, prepared: 450.5, bakery: 165.2 },
-    { name: "Apr", produce: 360.6, meat: 245.8, dairy: 185.8, prepared: 430.9, bakery: 155.9 },
-    { name: "May", produce: 390.4, meat: 270.2, dairy: 200.8, prepared: 470.2, bakery: 170.8 },
-    { name: "Jun", produce: 410.2, meat: 285.5, dairy: 210.2, prepared: 490.5, bakery: 180.2 },
+    { name: "Jan", fruits: 240.2, vegetables: 350.5, leafyGreens: 180.4, preparedVeg: 150.8 },
+    { name: "Feb", fruits: 220.5, vegetables: 320.8, leafyGreens: 165.9, preparedVeg: 140.2 },
+    { name: "Mar", fruits: 260.1, vegetables: 380.2, leafyGreens: 195.2, preparedVeg: 170.5 },
+    { name: "Apr", fruits: 245.8, vegetables: 360.6, leafyGreens: 185.8, preparedVeg: 160.9 },
+    { name: "May", fruits: 270.2, vegetables: 390.4, leafyGreens: 200.8, preparedVeg: 180.2 },
+    { name: "Jun", fruits: 285.5, vegetables: 410.2, leafyGreens: 210.2, preparedVeg: 200.5 },
   ]
 
   const pieData = [
-    { name: "Prepared Food", value: 42, color: "#f97316" },
-    { name: "Produce", value: 25, color: "#10b981" },
-    { name: "Meat", value: 15, color: "#ef4444" },
-    { name: "Dairy", value: 10, color: "#3b82f6" },
-    { name: "Bakery", value: 8, color: "#f59e0b" },
+    { name: "Vegetables", value: 45, color: "#10b981" },
+    { name: "Fruits", value: 30, color: "#f59e0b" },
+    { name: "Leafy Greens", value: 15, color: "#84cc16" },
+    { name: "Prepared Veg", value: 10, color: "#f97316" },
   ]
 
   const mealPeriodData = {
     daily: [
-      { name: "Breakfast", produce: 4.2, meat: 2.5, dairy: 3.8, prepared: 5.2, bakery: 3.2 },
-      { name: "Lunch", produce: 8.5, meat: 6.8, dairy: 4.2, prepared: 12.5, bakery: 3.8 },
-      { name: "Dinner", produce: 10.2, meat: 8.5, dairy: 5.5, prepared: 15.8, bakery: 4.5 },
-      { name: "Late Night", produce: 2.5, meat: 1.8, dairy: 1.2, prepared: 3.5, bakery: 1.2 },
+      { name: "Breakfast", fruits: 2.5, vegetables: 3.2, leafyGreens: 1.8, preparedVeg: 1.2 },
+      { name: "Lunch", fruits: 4.8, vegetables: 6.5, leafyGreens: 3.2, preparedVeg: 2.8 },
+      { name: "Dinner", fruits: 5.5, vegetables: 8.2, leafyGreens: 4.5, preparedVeg: 4.5 },
+      { name: "Late Night", fruits: 1.2, vegetables: 1.5, leafyGreens: 0.8, preparedVeg: 0.5 },
     ],
     weekly: [
-      { name: "Breakfast", produce: 29.4, meat: 17.5, dairy: 26.6, prepared: 36.4, bakery: 22.4 },
-      { name: "Lunch", produce: 59.5, meat: 47.6, dairy: 29.4, prepared: 87.5, bakery: 26.6 },
-      { name: "Dinner", produce: 71.4, meat: 59.5, dairy: 38.5, prepared: 110.6, bakery: 31.5 },
-      { name: "Late Night", produce: 17.5, meat: 12.6, dairy: 8.4, prepared: 24.5, bakery: 8.4 },
+      { name: "Breakfast", fruits: 17.5, vegetables: 22.4, leafyGreens: 12.6, preparedVeg: 8.4 },
+      { name: "Lunch", fruits: 33.6, vegetables: 45.5, leafyGreens: 22.4, preparedVeg: 19.6 },
+      { name: "Dinner", fruits: 38.5, vegetables: 57.4, leafyGreens: 31.5, preparedVeg: 31.5 },
+      { name: "Late Night", fruits: 8.4, vegetables: 10.5, leafyGreens: 5.6, preparedVeg: 3.5 },
     ],
     monthly: [
-      { name: "Breakfast", produce: 125.4, meat: 75.5, dairy: 114.6, prepared: 156.4, bakery: 96.4 },
-      { name: "Lunch", produce: 255.5, meat: 204.6, dairy: 126.4, prepared: 375.5, bakery: 114.6 },
-      { name: "Dinner", produce: 306.4, meat: 255.5, dairy: 165.5, prepared: 474.6, bakery: 135.5 },
-      { name: "Late Night", produce: 75.5, meat: 54.6, dairy: 36.4, prepared: 105.5, bakery: 36.4 },
+      { name: "Breakfast", fruits: 75.5, vegetables: 96.4, leafyGreens: 54.6, preparedVeg: 36.4 },
+      { name: "Lunch", fruits: 144.6, vegetables: 195.5, leafyGreens: 96.4, preparedVeg: 84.6 },
+      { name: "Dinner", fruits: 165.5, vegetables: 246.4, leafyGreens: 135.5, preparedVeg: 135.5 },
+      { name: "Late Night", fruits: 36.4, vegetables: 45.5, leafyGreens: 24.6, preparedVeg: 15.5 },
     ],
   }
 
   // Select data based on timeframe
   const data = timeframe === "daily" ? dailyData : timeframe === "weekly" ? weeklyData : monthlyData
-
   const mealData = mealPeriodData[timeframe]
 
   if (chartType === "pie") {
     return (
-      <div width="100%" height={300}>
-        <PieChart>
-          <Pie
-            data={pieData}
-            cx="50%"
-            cy="50%"
-            labelLine={false}
-            outerRadius={80}
-            fill="#8884d8"
-            dataKey="value"
-            label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-          >
-            {pieData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={entry.color} />
-            ))}
-          </Pie>
-          <Tooltip />
-          <Legend />
-        </PieChart>
+      <div style={{ width: '100%', height: 400 }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Pie
+              data={pieData}
+              cx="50%"
+              cy="50%"
+              labelLine={false}
+              outerRadius={120}
+              fill="#8884d8"
+              dataKey="value"
+              label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+            >
+              {pieData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.color} />
+              ))}
+            </Pie>
+            <Tooltip formatter={(value) => [`${value}%`, 'Waste Percentage']} />
+            <Legend />
+          </PieChart>
+        </ResponsiveContainer>
       </div>
     )
   }
 
   if (mealPeriod) {
     return (
-      <div width="100%" height={350}>
-        <BarChart data={mealData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey="prepared" name="Prepared Food" fill="#f97316" />
-          <Bar dataKey="produce" name="Produce" fill="#10b981" />
-          <Bar dataKey="meat" name="Meat" fill="#ef4444" />
-          <Bar dataKey="dairy" name="Dairy" fill="#3b82f6" />
-          <Bar dataKey="bakery" name="Bakery" fill="#f59e0b" />
-        </BarChart>
+      <div style={{ width: '100%', height: 400 }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            data={mealData}
+            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis label={{ value: 'Waste (kg)', angle: -90, position: 'insideLeft' }} />
+            <Tooltip formatter={(value) => [`${value} kg`, 'Waste']} />
+            <Legend />
+            <Bar dataKey="vegetables" name="Vegetables" fill="#10b981" />
+            <Bar dataKey="fruits" name="Fruits" fill="#f59e0b" />
+            <Bar dataKey="leafyGreens" name="Leafy Greens" fill="#84cc16" />
+            <Bar dataKey="preparedVeg" name="Prepared Veg" fill="#f97316" />
+          </BarChart>
+        </ResponsiveContainer>
       </div>
     )
   }
 
   if (chartType === "bar") {
     return (
-      <div width="100%" height={350}>
-        <BarChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey="prepared" name="Prepared Food" fill="#f97316" />
-          <Bar dataKey="produce" name="Produce" fill="#10b981" />
-          <Bar dataKey="meat" name="Meat" fill="#ef4444" />
-          <Bar dataKey="dairy" name="Dairy" fill="#3b82f6" />
-          <Bar dataKey="bakery" name="Bakery" fill="#f59e0b" />
-        </BarChart>
+      <div style={{ width: '100%', height: 400 }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            data={data}
+            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis label={{ value: 'Waste (kg)', angle: -90, position: 'insideLeft' }} />
+            <Tooltip formatter={(value) => [`${value} kg`, 'Waste']} />
+            <Legend />
+            <Bar dataKey="vegetables" name="Vegetables" fill="#10b981" />
+            <Bar dataKey="fruits" name="Fruits" fill="#f59e0b" />
+            <Bar dataKey="leafyGreens" name="Leafy Greens" fill="#84cc16" />
+            <Bar dataKey="preparedVeg" name="Prepared Veg" fill="#f97316" />
+          </BarChart>
+        </ResponsiveContainer>
       </div>
     )
   }
 
+  // Default line chart
   return (
-    <ResponsiveContainer width="100%" height={350}>
-      <LineChart data={data}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="prepared" name="Prepared Food" stroke="#f97316" />
-        <Line type="monotone" dataKey="produce" name="Produce" stroke="#10b981" />
-        <Line type="monotone" dataKey="meat" name="Meat" stroke="#ef4444" />
-        <Line type="monotone" dataKey="dairy" name="Dairy" stroke="#3b82f6" />
-        <Line type="monotone" dataKey="bakery" name="Bakery" stroke="#f59e0b" />
-      </LineChart>
-    </ResponsiveContainer>
+    <div style={{ width: '100%', height: 400 }}>
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart
+          data={data}
+          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis label={{ value: 'Waste (kg)', angle: -90, position: 'insideLeft' }} />
+          <Tooltip formatter={(value) => [`${value} kg`, 'Waste']} />
+          <Legend />
+          <Line type="monotone" dataKey="vegetables" name="Vegetables" stroke="#10b981" strokeWidth={2} />
+          <Line type="monotone" dataKey="fruits" name="Fruits" stroke="#f59e0b" strokeWidth={2} />
+          <Line type="monotone" dataKey="leafyGreens" name="Leafy Greens" stroke="#84cc16" strokeWidth={2} />
+          <Line type="monotone" dataKey="preparedVeg" name="Prepared Veg" stroke="#f97316" strokeWidth={2} />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
   )
 }
-
