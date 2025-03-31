@@ -1,5 +1,5 @@
 const { testObjectDetection } = require("./test.js");
-testObjectDetection("images.jpg")
+testObjectDetection("images (2).jpg")
   .then((result) => {
     console.log("Test result:", result);
   })

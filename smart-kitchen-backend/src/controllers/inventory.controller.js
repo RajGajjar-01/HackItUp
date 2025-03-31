@@ -120,9 +120,6 @@ const createInventoryItem = async (req, res) => {
   }
 };
 
-/**
- * Update an existing inventory item
- */
 const updateInventoryItem = async (req, res) => {
   try {
     const { id } = req.params;

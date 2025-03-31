@@ -17,7 +17,7 @@ dotenv.config();
 // Create Express app
 const app = express();
 const PORT = process.env.PORT || 3000;
-
+const menuRoutes = require("./routes/manu.js");
 // Middleware
 app.use(
   cors({
@@ -41,7 +41,7 @@ app.use("/api/waste", wasteRoutes);
 app.use("/api/sales", salesRoutes);
 app.use("/api/ai", aiServiceRoutes);
 app.use("/api/suggestions", suggestionRoutes);
-
+app.use("/api/menu", menuRoutes);
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to Smart Kitchen API" });
 });
