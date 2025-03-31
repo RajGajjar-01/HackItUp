@@ -5,6 +5,7 @@ import InventoryPage from "../pages/inventory";
 import Menu from "../pages/Menu";
 import WasteAnalysis from "../pages/WasteAnalysis";
 import PageNotFound from "../pages/PageNotFound";
+import AIRecipeMaker from "@/pages/RecipeMaker";
 
 const appRoutes = [
   { path: "/", element: <Landing /> },
@@ -12,6 +13,7 @@ const appRoutes = [
   { path: "/inventory", element: <InventoryPage /> },
   { path: "/menu", element: <Menu /> },
   { path: "/waste-analysis", element: <WasteAnalysis /> },
+  { path: "/recipe-maker", element: <AIRecipeMaker /> },
 ];
 
 function Routerr() {
